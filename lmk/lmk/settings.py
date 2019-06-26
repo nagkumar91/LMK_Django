@@ -24,7 +24,7 @@ SECRET_KEY = '9@=@=7--*$8r%*vrxcaed&22&!%pq_j*vtm_5)1vg3#1q&6p!w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -76,11 +76,16 @@ WSGI_APPLICATION = 'lmk.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
+        # 'ENGINE': 'django.db.backends.mysql' instead of the following.
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'lmk_core',
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': '35.188.137.152',
+        'PORT': '5432',
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -112,10 +117,12 @@ USE_L10N = True
 
 USE_TZ = True
 
+STATIC_ROOT = 'static/'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'http://storage.googleapis.com/lmk-static/static/'
 CORS_ORIGIN_ALLOW_ALL = True
 
 LOGIN_URL = '/admin/login/'
