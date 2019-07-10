@@ -1,3 +1,4 @@
+image: "gcr.io/letmeknow-243504/lmk"
 stages:
 - test
 - deploy
