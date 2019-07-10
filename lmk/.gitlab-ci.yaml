@@ -1,0 +1,13 @@
+stages:
+- test
+- deploy
+
+test:
+  stage: test
+  script: sh test.sh
+
+deploy:
+  stage: deploy
+  script: sh deploy.sh
+  environment:
+    name: staging
