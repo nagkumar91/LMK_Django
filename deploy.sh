@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+virtualenv .env -p python3
 source ./.env/bin/activate
 cd lmk
 python manage.py collectstatic --no-input
