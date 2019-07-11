@@ -1,4 +1,4 @@
-image: "gcr.io/letmeknow-243504/lmk"
+image: "gcr.io/letmeknow-243504/build-runner"
 stages:
 - test
 - deploy
