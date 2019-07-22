@@ -24,20 +24,20 @@ jobs:
             . venv/bin/activate
             python manage.py test
   deploy:
-    docker:
-     - image: google/cloud-sdk
+#    docker:
+#     - image: google/cloud-sdk
     working_directory: ~/repo
     machine: true
     steps:
-      - checkout
-      - run:
-          name: install dependencies
-          command: |
-            cd lmk
-            apt-get install -y python3-venv
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
+#      - checkout
+#      - run:
+#          name: install dependencies
+#          command: |
+#            cd lmk
+#            apt-get install -y python3-venv
+#            python3 -m venv venv
+#            . venv/bin/activate
+#            pip install -r requirements.txt
       - run:
           name: init gcp
           command: |
