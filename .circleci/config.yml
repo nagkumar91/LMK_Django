@@ -24,20 +24,20 @@ jobs:
             . venv/bin/activate
             python manage.py test
   deploy:
-#    docker:
-#     - image: google/cloud-sdk
+    docker:
+     - image: google/cloud-sdk
     working_directory: ~/repo
-    machine: true
+#    machine: true
     steps:
-#      - checkout
-#      - run:
-#          name: install dependencies
-#          command: |
-#            cd lmk
-#            apt-get install -y python3-venv
-#            python3 -m venv venv
-#            . venv/bin/activate
-#            pip install -r requirements.txt
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            cd lmk
+            apt-get install -y python3-venv
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
       - run:
           name: init gcp
           command: |
@@ -48,6 +48,7 @@ jobs:
           name: rsync static files
           command: |
             gsutil rsync -rm lmk/static/ gs://lmk-static/static
+      - setup_remote_docker
       - run:
           name: build and push docker image
           command: |
@@ -67,4 +68,6 @@ workflows:
   workflow:
     jobs:
       - build
-      - deploy
+      - deploy:
+          requires:
+            - build
