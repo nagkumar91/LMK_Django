@@ -38,7 +38,7 @@ jobs:
       - run:
           name: rsync static files
           command: |
-            gsutil rsync -rm lmk/static/ gs://lmk-static/static
+            gsutil rsync -r lmk/static/ gs://lmk-static/static
       - setup_remote_docker
       - run:
           name: build and push docker image
