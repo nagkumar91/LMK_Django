@@ -27,23 +27,39 @@ jobs:
     docker:
      - image: google/cloud-sdk
     working_directory: ~/repo
+    machine: true
     steps:
       - checkout
       - run:
           name: install dependencies
           command: |
             cd lmk
+            apt-get install -y python3-venv
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
-
       - run:
-          name: deploy to gcp
+          name: init gcp
           command: |
             echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-            ./deploy.sh
+      - run:
+          name: rsync static files
+          command: |
+            gsutil rsync -rm lmk/static/ gs://lmk-static/static
+      - run:
+          name: build and push docker image
+          command: |
+            cd lmk
+            docker build -t gcr.io/letmeknow-243504/lmk .
+            docker push gcr.io/letmeknow-243504/lmk
+      - run:
+          name: deploy to gke
+          command: |
+            kubectl apply -f lmk.yaml
+
+
 
 
 workflows:
