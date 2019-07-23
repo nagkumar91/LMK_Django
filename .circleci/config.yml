@@ -51,6 +51,7 @@ jobs:
       - run:
           name: deploy to gke
           command: |
+            cd lmk/lmk
             kubectl apply -f lmk.yaml
 
 
