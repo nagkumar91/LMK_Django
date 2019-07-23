@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/python:3.6.1
     working_directory: ~/repo
@@ -39,13 +39,14 @@ jobs:
       - run:
           name: rsync static files
           command: |
-            gsutil rsync -r lmk/static/ gs://lmk-static/static
+            gsutil rsync -ru lmk/static/ gs://lmk-static/static
       - setup_remote_docker
       - run:
           name: build and push docker image
           command: |
             cd lmk
             docker build -t gcr.io/letmeknow-243504/lmk .
+            gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://gcr.io
             docker push gcr.io/letmeknow-243504/lmk
       - run:
           name: deploy to gke
@@ -59,7 +60,7 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - build
+      - test
       - deploy:
           requires:
-            - build
+            - test
