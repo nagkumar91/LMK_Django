@@ -5,4 +5,4 @@ from django.shortcuts import render
 # Create your views here.
 
 def index(request):
-    return HttpResponse("Hello Django 2.2.2")
+    return HttpResponse("Hello Django 2.2.2, CICD powered by CircleCI")
