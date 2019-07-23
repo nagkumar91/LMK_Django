@@ -51,10 +51,9 @@ jobs:
       - run:
           name: deploy to gke
           command: |
-            cd lmk/lmk
+            cd /root/repo/lmk
+            gcloud --quiet container clusters get-credentials lmk
             kubectl apply -f lmk.yaml
-
-
 
 
 workflows:
